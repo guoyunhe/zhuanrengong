@@ -21,9 +21,9 @@ const GlobalStyles = createGlobalStyle`
 type VoiceStyle = 'news' | 'rap' | 'anime'
 
 const VOICE_STYLES: Record<VoiceStyle, { label: string; src: string }> = {
-  news: { label: '新闻联播风格', src: '/news.mp3' },
-  rap: { label: '西海岸说唱风格', src: '/rap.mp3' },
-  anime: { label: '二次元风格', src: '/anime.mp3' },
+  news: { label: '新闻联播风格', src: '/news.ogg' },
+  rap: { label: '西海岸说唱风格', src: '/rap.ogg' },
+  anime: { label: '二次元风格', src: '/anime.ogg' },
 }
 
 const STYLE_OPTIONS = (Object.entries(VOICE_STYLES) as [VoiceStyle, { label: string; src: string }][]).map(

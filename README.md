@@ -1,4 +1,6 @@
-# 转人工
+# 🤬 转人工！
+
+循环播放“转人工”助你跳过 AI 客服
 
 一个使用 Vite 8 + React + TypeScript + react95 构建的单页应用。页面中央有一个按钮，点击后无限循环播放"转人工"的中文语音。
 
@@ -21,3 +23,4 @@ npm run dev
 ```bash
 npm run build
 ```
+

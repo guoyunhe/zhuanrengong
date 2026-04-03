@@ -20,40 +20,33 @@ const GlobalStyles = createGlobalStyle`
 
 type VoiceStyle = 'news' | 'rap' | 'anime'
 
-const VOICE_STYLES: Record<VoiceStyle, { label: string; pitch: number; rate: number }> = {
-  news: { label: '新闻联播风格', pitch: 0.8, rate: 0.85 },
-  rap: { label: '西海岸说唱风格', pitch: 0.9, rate: 1.8 },
-  anime: { label: '二次元风格', pitch: 2.0, rate: 1.3 },
+const VOICE_STYLES: Record<VoiceStyle, { label: string; src: string }> = {
+  news: { label: '新闻联播风格', src: '/news.mp3' },
+  rap: { label: '西海岸说唱风格', src: '/rap.mp3' },
+  anime: { label: '二次元风格', src: '/anime.mp3' },
 }
 
-const STYLE_OPTIONS = (Object.entries(VOICE_STYLES) as [VoiceStyle, { label: string; pitch: number; rate: number }][]).map(
+const STYLE_OPTIONS = (Object.entries(VOICE_STYLES) as [VoiceStyle, { label: string; src: string }][]).map(
   ([value, { label }]) => ({ value, label }),
 )
 
 function App() {
   const [playing, setPlaying] = useState(false)
   const [voiceStyle, setVoiceStyle] = useState<VoiceStyle>('news')
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  const speak = () => {
-    const { pitch, rate } = VOICE_STYLES[voiceStyle]
-    const utterance = new SpeechSynthesisUtterance('转人工')
-    utterance.lang = 'zh-CN'
-    utterance.pitch = pitch
-    utterance.rate = rate
-    utterance.onend = () => {
-      if (utteranceRef.current === utterance) {
-        window.speechSynthesis.speak(utterance)
-      }
-    }
-    utteranceRef.current = utterance
-    window.speechSynthesis.cancel()
-    window.speechSynthesis.speak(utterance)
+  const play = () => {
+    const audio = new Audio(VOICE_STYLES[voiceStyle].src)
+    audio.loop = true
+    audioRef.current = audio
+    audio.play()
   }
 
   const stop = () => {
-    utteranceRef.current = null
-    window.speechSynthesis.cancel()
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+    }
   }
 
   const handleClick = () => {
@@ -61,7 +54,7 @@ function App() {
       stop()
       setPlaying(false)
     } else {
-      speak()
+      play()
       setPlaying(true)
     }
   }

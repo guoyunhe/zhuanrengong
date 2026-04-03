@@ -4,6 +4,9 @@ import { styleReset } from 'react95'
 import original from 'react95/dist/themes/original'
 import { Button, Window, WindowHeader, WindowContent, Select } from 'react95'
 import { createGlobalStyle } from 'styled-components'
+import newsOgg from './assets/news.ogg'
+import rapOgg from './assets/rap.ogg'
+import animeOgg from './assets/anime.ogg'
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -21,9 +24,9 @@ const GlobalStyles = createGlobalStyle`
 type VoiceStyle = 'news' | 'rap' | 'anime'
 
 const VOICE_STYLES: Record<VoiceStyle, { label: string; src: string }> = {
-  news: { label: '新闻联播风格', src: '/news.ogg' },
-  rap: { label: '西海岸说唱风格', src: '/rap.ogg' },
-  anime: { label: '二次元风格', src: '/anime.ogg' },
+  news: { label: '新闻联播风格', src: newsOgg },
+  rap: { label: '西海岸说唱风格', src: rapOgg },
+  anime: { label: '二次元风格', src: animeOgg },
 }
 
 const STYLE_OPTIONS = (Object.entries(VOICE_STYLES) as [VoiceStyle, { label: string; src: string }][]).map(

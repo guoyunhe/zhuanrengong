@@ -74,7 +74,10 @@ function App() {
     <ThemeProvider theme={original}>
       <GlobalStyles />
       <Window style={{ width: 320 }}>
-        <WindowHeader>转人工</WindowHeader>
+        <WindowHeader style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <img src="./favicon.png" alt="" style={{ width: 24, height: 24, imageRendering: 'pixelated' }} />
+          转人工
+        </WindowHeader>
         <WindowContent
           style={{
             display: 'flex',

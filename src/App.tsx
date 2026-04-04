@@ -7,17 +7,23 @@ import { createGlobalStyle } from 'styled-components'
 import womanOgg from './voices/woman.ogg'
 import manOgg from './voices/man.ogg'
 import lolitaOgg from './voices/lolita.ogg'
+import { GithubDesktopIcon } from './components/GithubDesktopIcon'
+
+const GITHUB_URL = 'https://github.com/guoyunhe/zhuanrengong'
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
+  html,
   body {
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    background: teal;
+    background: #008080;
     font-family: 'ms_sans_serif';
+    overflow: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
   }
 `
 
@@ -36,6 +42,7 @@ const STYLE_OPTIONS = (Object.entries(VOICE_STYLES) as [VoiceStyle, { label: str
 function App() {
   const [playing, setPlaying] = useState(false)
   const [voiceStyle, setVoiceStyle] = useState<VoiceStyle>('news')
+  const [isIconSelected, setIsIconSelected] = useState(true)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const play = () => {
@@ -70,37 +77,67 @@ function App() {
     setVoiceStyle(option.value)
   }
 
+  const openGithubSite = () => {
+    window.open(GITHUB_URL, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <ThemeProvider theme={original}>
       <GlobalStyles />
-      <Window style={{ width: 320 }}>
-        <WindowHeader style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <img src="./favicon.png" alt="" style={{ width: 24, height: 24, imageRendering: 'pixelated' }} />
-          转人工
-        </WindowHeader>
-        <WindowContent
+      <main
+        onClick={() => setIsIconSelected(false)}
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          padding: 18,
+          background:
+            'radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 22%), linear-gradient(180deg, #0a8c8c 0%, #007171 100%)',
+        }}
+      >
+        <GithubDesktopIcon
+          selected={isIconSelected}
+          onSelect={() => setIsIconSelected(true)}
+          onOpen={openGithubSite}
+        />
+
+        <Window
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 16,
-            padding: 24,
+            width: 320,
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
           }}
+          onClick={(event) => event.stopPropagation()}
         >
-          <Select
-            options={STYLE_OPTIONS}
-            value={voiceStyle}
-            onChange={handleStyleChange}
-            width="100%"
-          />
-          <p style={{ margin: 0, textAlign: 'center' }}>
-            {playing ? '正在播放"转人工"语音...' : '点击按钮开始播放"转人工"语音'}
-          </p>
-          <Button onClick={handleClick} style={{ minWidth: 120 }}>
-            {playing ? '停止' : '转人工'}
-          </Button>
-        </WindowContent>
-      </Window>
+            <WindowHeader style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <img src="./favicon.png" alt="" style={{ width: 24, height: 24, imageRendering: 'pixelated' }} />
+              转人工
+            </WindowHeader>
+            <WindowContent
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 16,
+                padding: 24,
+              }}
+            >
+              <Select
+                options={STYLE_OPTIONS}
+                value={voiceStyle}
+                onChange={handleStyleChange}
+                width="100%"
+              />
+              <p style={{ margin: 0, textAlign: 'center' }}>
+                {playing ? '正在播放"转人工"语音...' : '点击按钮开始播放"转人工"语音'}
+              </p>
+              <Button onClick={handleClick} style={{ minWidth: 120 }}>
+                {playing ? '停止' : '转人工'}
+              </Button>
+            </WindowContent>
+          </Window>
+      </main>
     </ThemeProvider>
   )
 }
